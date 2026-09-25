@@ -11,10 +11,10 @@ $(BUILD)/test_hangul: src/hangul_core.c src/hangul_core.h tests/test_hangul.c
 host: $(BUILD)/korean-ime-x11
 $(BUILD)/korean-ime-x11: src/hangul_core.c src/hangul_core.h src/x11_bridge.c
 	mkdir -p $(BUILD)
-	$(CC) $(CFLAGS) -Isrc src/hangul_core.c src/x11_bridge.c -lX11 -o $@
+	$(CC) $(CFLAGS) -Isrc src/hangul_core.c src/x11_bridge.c -ldl -o $@
 arm:
 	@test -n "$(CROSS_COMPILE)" || (echo "Set CROSS_COMPILE"; exit 2)
 	mkdir -p $(BUILD)
-	$(CROSS_COMPILE)gcc $(CFLAGS) -Isrc src/hangul_core.c src/x11_bridge.c -lX11 -o $(BUILD)/korean-ime-x11
+	$(CROSS_COMPILE)gcc $(CFLAGS) -Isrc src/hangul_core.c src/x11_bridge.c -ldl -o $(BUILD)/korean-ime-x11
 clean:
 	rm -rf $(BUILD)
