@@ -16,5 +16,6 @@ arm:
 	@test -n "$(CROSS_COMPILE)" || (echo "Set CROSS_COMPILE"; exit 2)
 	mkdir -p $(BUILD)
 	$(CROSS_COMPILE)gcc $(CFLAGS) -Isrc src/hangul_core.c src/x11_bridge.c -ldl -o $(BUILD)/korean-ime-x11
+	$(CROSS_COMPILE)strip --strip-unneeded $(BUILD)/korean-ime-x11
 clean:
 	rm -rf $(BUILD)
