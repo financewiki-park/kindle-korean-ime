@@ -1,6 +1,6 @@
 # IME engine
 
-The production IME will live here.
+The guarded production composition core and X11 bridge live here.
 
 Design target:
 
@@ -11,4 +11,4 @@ Design target:
 5. Output adapter separated from the Hangul state machine.
 6. Prefer Kindle native preedit/commit/replace APIs where present; retain an X11 adapter only as a compatibility fallback.
 
-The device compatibility probe is being landed before ARM binaries so an unverified executable is never shipped blindly.
+Both ARM variants are packaged, but their launch hook remains blocked until the device compatibility report is reviewed and an allowlist is committed.

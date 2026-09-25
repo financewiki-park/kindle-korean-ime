@@ -1,6 +1,6 @@
 # Compatibility probe
 
-The 0.1.x package is a read-only discovery step.
+The 0.2.x package is a read-only discovery step and can be repeated through KPM Launch.
 
 It records:
 
