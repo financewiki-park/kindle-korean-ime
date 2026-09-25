@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
         XGetInputFocus(dpy,&focus,&revert); if(focus==None) continue;
         XSelectInput(dpy,focus,KeyReleaseMask);
         XNextEvent(dpy,&ev); if(ev.type!=KeyRelease) continue;
-        if(ev.xkey.keycode==max || ev.xkey.keycode==max-1) continue;
+        if (ev.xkey.keycode == (unsigned int)max || ev.xkey.keycode == (unsigned int)(max - 1)) continue;
         sym=XLookupKeysym(&ev.xkey,0);
         if(sym==XK_BackSpace) { r=hangul_backspace(&state); }
         else if(sym>=0x3131 && sym<=0x3163) { r=hangul_feed(&state,(uint32_t)sym); }
