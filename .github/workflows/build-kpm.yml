@@ -25,6 +25,7 @@ jobs:
           curl --fail --location --retry 3 https://github.com/KindleModding/koxtoolchain/releases/latest/download/kindlehf.tar.gz | tar -xzf - -C "$HOME"
       - name: Cross-build and inspect ARM binaries
         run: |
+          export PATH="$HOME/x-tools/arm-kindlepw2-linux-gnueabi/bin:$HOME/x-tools/arm-kindlehf-linux-gnueabihf/bin:$PATH"
           mkdir -p build/arm/kindlepw2 build/arm/kindlehf
           make arm BUILD=build/arm/kindlepw2 CROSS_COMPILE=arm-kindlepw2-linux-gnueabi-
           make arm BUILD=build/arm/kindlehf CROSS_COMPILE=arm-kindlehf-linux-gnueabihf-
