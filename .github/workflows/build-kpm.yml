@@ -16,16 +16,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Build .kpkg
         run: |
           mkdir -p packages/korean-ime-probe/artifacts
           tar -C package -czf packages/korean-ime-probe/artifacts/korean-ime-probe_0.1.0_kindlehf-kindlepw2.kpkg .
           tar -tzf packages/korean-ime-probe/artifacts/korean-ime-probe_0.1.0_kindlehf-kindlepw2.kpkg
-      - name: Commit generated artifact
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add packages/korean-ime-probe/artifacts/korean-ime-probe_0.1.0_kindlehf-kindlepw2.kpkg
-          git diff --cached --quiet && exit 0
-          git commit -m "Build Korean IME Probe KPM artifact"
-          git push
+
+      - name: Upload KPM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: korean-ime-probe-0.1.0
+          path: packages/korean-ime-probe/artifacts/korean-ime-probe_0.1.0_kindlehf-kindlepw2.kpkg
+          if-no-files-found: error
