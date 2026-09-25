@@ -10,11 +10,11 @@
       "description": "Read-only Kindle keyboard compatibility probe.",
       "artifacts": [
         {
-          "url": "packages/korean-ime-probe/artifacts/korean-ime-probe_0.2.0_kindlehf-kindlepw2.kpkg",
+          "url": "packages/korean-ime-probe/artifacts/korean-ime-probe_0.2.1_kindlehf-kindlepw2.kpkg",
           "version": [
             0,
             2,
-            0
+            1
           ],
           "dependencies": [],
           "supported_platforms": [
@@ -30,8 +30,8 @@
       "description": "Dubeolsik engine and X11 bridge. Activation is blocked until a compatible Probe report is present.",
       "artifacts": [
         {
-          "url": "packages/korean-ime/artifacts/korean-ime_0.2.0_kindlehf-kindlepw2.kpkg",
-          "version": [0, 2, 0],
+          "url": "packages/korean-ime/artifacts/korean-ime_0.2.1_kindlehf-kindlepw2.kpkg",
+          "version": [0, 2, 1],
           "dependencies": [],
           "supported_platforms": ["kindlehf", "kindlepw2"]
         }
