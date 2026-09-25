@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+  "id": "korean-ime",
+  "name": "Kindle Korean IME",
+  "description": "KPM repository for the Kindle Korean IME project.",
+  "packages": {
+    "korean-ime-probe": {
+      "name": "Korean IME Probe",
+      "author": "financewiki-park",
+      "description": "Read-only compatibility probe for the Kindle Korean IME project.",
+      "artifacts": [
+        {
+          "url": "packages/korean-ime-probe/artifacts/korean-ime-probe_0.1.0_kindlehf-kindlepw2.kpkg",
+          "version": [
+            0,
+            1,
+            0
+          ],
+          "dependencies": [],
+          "supported_platforms": [
+            "kindlehf",
+            "kindlepw2"
+          ]
+        }
+      ]
+    }
+  }
+}
