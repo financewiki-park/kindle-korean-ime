@@ -7,7 +7,7 @@ if [ ! -r "$REPORT" ]; then
   echo "reason=missing_probe_report"
   exit 1
 fi
-if ! grep -q '^probe_schema=2$' "$REPORT"; then
+if ! grep -Eq '^probe_schema=(2|3)$' "$REPORT"; then
   echo "status=blocked"
   echo "reason=unsupported_probe_schema"
   exit 1

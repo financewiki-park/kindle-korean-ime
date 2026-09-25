@@ -9,7 +9,7 @@ mkdir -p "$OUT"
 {
   echo "Kindle Korean IME compatibility probe"
   echo "====================================="
-  echo "probe_schema=2"
+  echo "probe_schema=3"
   echo "probe_mode=$MODE"
   date 2>/dev/null || true
   echo
@@ -38,6 +38,16 @@ mkdir -p "$OUT"
   if command -v lipc-get-prop >/dev/null 2>&1; then
     echo "lipc_keyboard_languages:"
     lipc-get-prop com.lab126.keyboard languages 2>&1 || true
+    echo "keyboard_language:"
+    lipc-get-prop com.lab126.keyboard keyboard_language 2>&1 || true
+    echo "keyboard_preedit:"
+    lipc-get-prop com.lab126.keyboard preedit 2>&1 || true
+    echo "layout_selected_keyboard:"
+    lipc-get-prop com.lab126.KeyboardLayout selectedKeyboard 2>&1 || true
+    echo "layout_selected_count:"
+    lipc-get-prop com.lab126.KeyboardLayout selectedKeyboardsCount 2>&1 || true
+    echo "layout_keyboard_data:"
+    lipc-get-prop com.lab126.KeyboardLayout keyboardData 2>&1 || true
   else
     echo "lipc-get-prop: absent"
   fi
