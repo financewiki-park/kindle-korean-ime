@@ -15,16 +15,28 @@ static int initial_for(uint32_t c) { int x = find(consonants, 30, c); return x <
 static int final_for(uint32_t c) { int x = find(consonants, 30, c); return x < 0 ? -1 : final[x]; }
 static uint32_t consonant_for_initial(int l) { int i; for (i=0;i<30;i++) if(initial[i] == l) return consonants[i]; return 0; }
 static int compose_vowel(int a, int b) {
-    if(a==8&&b==0)return 9; if(a==8&&b==1)return 10; if(a==8&&b==20)return 11;
-    if(a==13&&b==4)return 14; if(a==13&&b==5)return 15; if(a==13&&b==20)return 16;
-    if(a==18&&b==20)return 19; return -1;
+    if (a == 8 && b == 0) return 9;
+    if (a == 8 && b == 1) return 10;
+    if (a == 8 && b == 20) return 11;
+    if (a == 13 && b == 4) return 14;
+    if (a == 13 && b == 5) return 15;
+    if (a == 13 && b == 20) return 16;
+    if (a == 18 && b == 20) return 19;
+    return -1;
 }
 static int compose_final(int a, int b) {
-    static const int table[28][28] = {{0}};
-    if(a==1&&b==19)return 3; if(a==4&&b==22)return 5; if(a==4&&b==27)return 6;
-    if(a==8&&b==1)return 9; if(a==8&&b==16)return 10; if(a==8&&b==17)return 11;
-    if(a==8&&b==19)return 12; if(a==8&&b==25)return 13; if(a==8&&b==26)return 14;
-    if(a==8&&b==27)return 15; if(a==17&&b==19)return 18; (void)table; return -1;
+    if (a == 1 && b == 19) return 3;
+    if (a == 4 && b == 22) return 5;
+    if (a == 4 && b == 27) return 6;
+    if (a == 8 && b == 1) return 9;
+    if (a == 8 && b == 16) return 10;
+    if (a == 8 && b == 17) return 11;
+    if (a == 8 && b == 19) return 12;
+    if (a == 8 && b == 25) return 13;
+    if (a == 8 && b == 26) return 14;
+    if (a == 8 && b == 27) return 15;
+    if (a == 17 && b == 19) return 18;
+    return -1;
 }
 static int split_final(int t, int *first, int *second_l) {
     switch(t) { case 3:*first=1;*second_l=9;return 1; case 5:*first=4;*second_l=12;return 1;
@@ -70,7 +82,8 @@ HangulResult hangul_feed(HangulState *s, uint32_t j) {
         { int first, next; uint32_t c;
           if(split_final(s->t,&first,&next)){s->t=first;c=hangul_preedit(s);s->l=next;s->v=vi;s->t=0;return out(s,c);}
           next=initial_from_final(s->t);
-          if(next<0) next=0; s->t=0;c=hangul_preedit(s);s->l=next;s->v=vi;return out(s,c); }
+          if (next < 0) next = 0;
+          s->t=0;c=hangul_preedit(s);s->l=next;s->v=vi;return out(s,c); }
     }
     hangul_reset(s); return (HangulResult){old,j};
 }
