@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "id": "korean-ime-probe",
+  "name": "Korean IME Probe",
+  "author": "financewiki-park",
+  "description": "Read-only compatibility probe for the Kindle Korean IME project.",
+  "version": [
+    0,
+    1,
+    0
+  ],
+  "dependencies": [],
+  "supported_platforms": [
+    "kindlehf",
+    "kindlepw2"
+  ]
+}
