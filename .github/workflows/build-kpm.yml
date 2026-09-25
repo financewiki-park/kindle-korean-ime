@@ -1,0 +1,31 @@
+name: Build KPM repository
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'package/**'
+      - '.github/workflows/build-kpm.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build .kpkg
+        run: |
+          mkdir -p packages/korean-ime-probe/artifacts
+          tar -C package -czf packages/korean-ime-probe/artifacts/korean-ime-probe_0.1.0_kindlehf-kindlepw2.kpkg .
+          tar -tzf packages/korean-ime-probe/artifacts/korean-ime-probe_0.1.0_kindlehf-kindlepw2.kpkg
+      - name: Commit generated artifact
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add packages/korean-ime-probe/artifacts/korean-ime-probe_0.1.0_kindlehf-kindlepw2.kpkg
+          git diff --cached --quiet && exit 0
+          git commit -m "Build Korean IME Probe KPM artifact"
+          git push
