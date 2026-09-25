@@ -6,7 +6,7 @@
   "description": "Read-only compatibility probe for the Kindle Korean IME project.",
   "version": [
     0,
-    1,
+    2,
     0
   ],
   "dependencies": [],

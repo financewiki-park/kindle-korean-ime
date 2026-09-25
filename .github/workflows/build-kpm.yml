@@ -1,11 +1,10 @@
-name: Build KPM repository
+name: Build and publish KPM packages
 
 on:
   push:
-    branches: [ main ]
-    paths:
-      - 'package/**'
-      - '.github/workflows/build-kpm.yml'
+    branches: [main]
+    paths-ignore:
+      - 'packages/**'
   workflow_dispatch:
 
 permissions:
@@ -16,28 +15,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Build .kpkg
+      - name: Install host validation tools
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libx11-dev
+      - name: Run host composition tests and strict build
+        run: make test host
+      - name: Fetch koxtoolchain targets
         run: |
-          mkdir -p packages/korean-ime-probe/artifacts
-          tar -C package -czf packages/korean-ime-probe/artifacts/korean-ime-probe_0.1.0_kindlehf-kindlepw2.kpkg .
-          tar -tzf packages/korean-ime-probe/artifacts/korean-ime-probe_0.1.0_kindlehf-kindlepw2.kpkg
-
-      - name: Upload KPM artifact
-        uses: actions/upload-artifact@v4
+          curl --fail --location --retry 3 https://github.com/KindleModding/koxtoolchain/releases/latest/download/kindlepw2.tar.gz | tar -xzf - -C "$HOME"
+          curl --fail --location --retry 3 https://github.com/KindleModding/koxtoolchain/releases/latest/download/kindlehf.tar.gz | tar -xzf - -C "$HOME"
+      - name: Cross-build and inspect ARM binaries
+        run: |
+          mkdir -p build/arm/kindlepw2 build/arm/kindlehf
+          make arm BUILD=build/arm/kindlepw2 CROSS_COMPILE=arm-kindlepw2-linux-gnueabi-
+          make arm BUILD=build/arm/kindlehf CROSS_COMPILE=arm-kindlehf-linux-gnueabihf-
+          file build/arm/kindlepw2/korean-ime-x11 build/arm/kindlehf/korean-ime-x11
+          readelf -h build/arm/kindlepw2/korean-ime-x11 | grep -E 'Class:.*ELF32|Machine:.*ARM'
+          readelf -h build/arm/kindlehf/korean-ime-x11 | grep -E 'Class:.*ELF32|Machine:.*ARM'
+      - name: Assemble and validate KPM archives
+        run: |
+          mkdir -p packages/korean-ime-probe/artifacts packages/korean-ime/artifacts
+          tar -C package -czf packages/korean-ime-probe/artifacts/korean-ime-probe_0.2.0_kindlehf-kindlepw2.kpkg .
+          rm -rf build/package-ime && cp -a ime-package build/package-ime
+          mkdir -p build/package-ime/bin/kindlepw2 build/package-ime/bin/kindlehf
+          cp build/arm/kindlepw2/korean-ime-x11 build/package-ime/bin/kindlepw2/
+          cp build/arm/kindlehf/korean-ime-x11 build/package-ime/bin/kindlehf/
+          tar -C build/package-ime -czf packages/korean-ime/artifacts/korean-ime_0.2.0_kindlehf-kindlepw2.kpkg .
+          tar -tzf packages/korean-ime-probe/artifacts/korean-ime-probe_0.2.0_kindlehf-kindlepw2.kpkg | grep -qx './launch.sh'
+          tar -tzf packages/korean-ime/artifacts/korean-ime_0.2.0_kindlehf-kindlepw2.kpkg | grep -qx './bin/kindlehf/korean-ime-x11'
+          tar -tzf packages/korean-ime/artifacts/korean-ime_0.2.0_kindlehf-kindlepw2.kpkg | grep -qx './scriptlets/preflight.sh'
+          python3 scripts/validate_kpm.py manifest.json packages/korean-ime-probe/artifacts/korean-ime-probe_0.2.0_kindlehf-kindlepw2.kpkg packages/korean-ime/artifacts/korean-ime_0.2.0_kindlehf-kindlepw2.kpkg
+      - uses: actions/upload-artifact@v4
         with:
-          name: korean-ime-probe-0.1.0
-          path: packages/korean-ime-probe/artifacts/korean-ime-probe_0.1.0_kindlehf-kindlepw2.kpkg
+          name: korean-ime-kpm-0.2.0
+          path: packages/**/artifacts/*.kpkg
           if-no-files-found: error
-
-      - name: Publish stable KPM artifact
+      - name: Publish immutable repository artifacts
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f packages/korean-ime-probe/artifacts/korean-ime-probe_0.1.0_kindlehf-kindlepw2.kpkg
-          if git diff --cached --quiet; then
-            echo "Artifact already current"
-          else
-            git commit -m "Publish Korean IME Probe 0.1.0"
-            git push
-          fi
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -f packages
+          git diff --cached --quiet || (git commit -m 'Publish KPM artifacts 0.2.0' && git push)

@@ -4,9 +4,9 @@ KPM-installable Korean keyboard / IME for jailbroken Kindle devices.
 
 ## Status
 
-**Development / probe stage (0.1.0).**
+**Development / guarded staging stage (0.2.0).**
 
-The first KPM package is intentionally a read-only compatibility probe. It checks the Kindle firmware, architecture, native keyboard resources and LIPC keyboard interface before the real IME package modifies anything.
+The Probe is read-only and repeatable from KPM's Launch action. The IME package now contains tested Dubeolsik composition code and both ARM bridge builds, but activation remains blocked until a real Probe report establishes the device-specific X11/LIPC contract.
 
 ## Goal
 

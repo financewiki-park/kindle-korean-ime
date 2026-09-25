@@ -1,3 +1,4 @@
 #!/bin/sh
-# KPM removes package files. Preserve /mnt/us/korean-ime-probe/report.txt.
+# The report is deliberately retained as user-owned diagnostic evidence.
+# No rootfs, LIPC or keyboard setting was changed by this package.
 exit 0

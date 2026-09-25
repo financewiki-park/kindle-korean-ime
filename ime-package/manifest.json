@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "id": "korean-ime",
+  "name": "Korean IME (staged)",
+  "author": "financewiki-park",
+  "description": "Dubeolsik composition engine and guarded Kindle X11 bridge.",
+  "version": [0, 2, 0],
+  "dependencies": [],
+  "supported_platforms": ["kindlehf", "kindlepw2"]
+}
