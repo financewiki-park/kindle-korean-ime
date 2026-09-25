@@ -1,5 +1,5 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "id": "korean-ime-probe",
   "name": "Korean IME Probe",
   "author": "financewiki-park",
@@ -7,7 +7,7 @@
   "version": [
     0,
     2,
-    1
+    2
   ],
   "dependencies": [],
   "supported_platforms": [

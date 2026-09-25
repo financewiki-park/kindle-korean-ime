@@ -19,6 +19,6 @@ for archive in archives:
         assert "manifest.json" in names, archive
         member = next(n for n in tar.getmembers() if n.name.lstrip("./") == "manifest.json")
         manifest = json.load(tar.extractfile(member))
-        assert manifest["manifest_version"] == 3
+        assert manifest["manifest_version"] == 2
         assert "install.sh" in names and "uninstall.sh" in names
 print("KPM manifest/archive validation: ok")
