@@ -30,8 +30,8 @@
       "description": "Read-only native keyboard diagnostics. Updating from the staged build restores its backup first.",
       "artifacts": [
         {
-          "url": "packages/korean-ime/artifacts/korean-ime_0.4.2_kindlehf-kindlepw2.kpkg",
-          "version": [0, 4, 2],
+          "url": "packages/korean-ime/artifacts/korean-ime_0.4.3_kindlehf-kindlepw2.kpkg",
+          "version": [0, 4, 3],
           "dependencies": [],
           "supported_platforms": ["kindlehf", "kindlepw2"]
         }

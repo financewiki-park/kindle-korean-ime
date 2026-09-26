@@ -26,3 +26,20 @@ done
 echo
 echo "[framework process candidates]"
 ps w 2>/dev/null | grep -Ei '[k]eyboard|[i]nput|framework|cvm' | head -100 || true
+echo
+echo "[LIPC service owners]"
+for service in com.lab126.keyboard com.lab126.KeyboardLayout; do
+  echo "--- $service ---"
+  if command -v dbus-send >/dev/null 2>&1; then
+    pid="$(dbus-send --system --print-reply --dest=org.freedesktop.DBus / org.freedesktop.DBus.GetConnectionUnixProcessID string:"$service" 2>/dev/null | awk '/uint32/{print $2; exit}')"
+    echo "pid=${pid:-unavailable}"
+    if [ -n "${pid:-}" ] && [ -r "/proc/$pid/cmdline" ]; then
+      echo "cmdline:"
+      tr '\000' '\n' <"/proc/$pid/cmdline" 2>/dev/null || true
+      echo "mapped_keyboard_input_modules:"
+      grep -Ei 'keyboard|input|ime|java|liblipc' "/proc/$pid/maps" 2>/dev/null | awk '{print $NF}' | sort -u | head -100 || true
+    fi
+  else
+    echo "dbus-send=absent"
+  fi
+done
