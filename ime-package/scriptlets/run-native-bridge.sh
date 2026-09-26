@@ -1,7 +1,15 @@
 #!/bin/sh
 set -eu
 STATE=/mnt/us/korean-ime; mkdir -p "$STATE"
-if [ -r "$STATE/bridge.pid" ] && kill -0 "$(cat "$STATE/bridge.pid")" 2>/dev/null; then echo 'bridge=already_running'; exit 0; fi
+# A PID alone is not an identity: after a Kindle reboot it can be reused by an
+# unrelated process.  Only retain it when /proc confirms it is our bridge.
+if [ -r "$STATE/bridge.pid" ]; then
+  pid="$(cat "$STATE/bridge.pid" 2>/dev/null || true)"
+  if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null && [ -r "/proc/$pid/cmdline" ] && grep -aq 'korean-ime-x11' "/proc/$pid/cmdline"; then
+    echo 'bridge=already_running'; exit 0
+  fi
+  rm -f "$STATE/bridge.pid"
+fi
 for target in kindlehf kindlepw2; do
   binary="./bin/$target/korean-ime-x11"
   if [ -x "$binary" ]; then
