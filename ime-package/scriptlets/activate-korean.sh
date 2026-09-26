@@ -9,5 +9,11 @@ if grep -q '"id"[[:space:]]*:[[:space:]]*"ko"' "$CONFIG"; then cp "$CONFIG" "$TM
 sed -i -e 's/"selected"[[:space:]]*:[[:space:]]*"[^"]*"/"selected": "ko"/' -e 's/"current"[[:space:]]*:[[:space:]]*"[^"]*"/"current": "ko"/' "$TMP"
 grep -q '"id"[[:space:]]*:[[:space:]]*"ko"' "$TMP" && grep -q '"selected"[[:space:]]*:[[:space:]]*"ko"' "$TMP"
 cp "$TMP" "$CONFIG"; sed -i -e 's/^keyboard=.*/keyboard=ko/' "$PREF"
-command -v lipc-set-prop >/dev/null 2>&1 && lipc-set-prop com.lab126.KeyboardLayout selectedKeyboard ko 2>/dev/null || true
+if command -v lipc-set-prop >/dev/null 2>&1; then
+  languages="$(lipc-get-prop com.lab126.keyboard languages 2>/dev/null || true)"
+  case ":$languages:" in *:ko:*) ;; *) languages="${languages:+$languages:}ko";; esac
+  [ -n "$languages" ] && lipc-set-prop com.lab126.keyboard languages "$languages" 2>/dev/null || true
+  lipc-set-prop com.lab126.keyboard language ko 2>/dev/null || true
+  lipc-set-prop com.lab126.KeyboardLayout selectedKeyboard ko 2>/dev/null || true
+fi
 echo 'status=activated'
