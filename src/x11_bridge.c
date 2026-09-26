@@ -14,7 +14,10 @@ static int load_x11(void **handle, X11Api *api) {
 #undef LOAD
     return 1;
 }
-static void pause_10ms(void) { struct timeval tv; tv.tv_sec=0; tv.tv_usec=10000; (void)select(0,0,0,0,&tv); }
+/* There is no supported blocking notification for Kindle's rotating IM focus
+ * windows.  A 40 ms idle wait keeps typing responsive while avoiding the old
+ * 100 wakeups/second background poll. */
+static void pause_idle(void) { struct timeval tv; tv.tv_sec=0; tv.tv_usec=40000; (void)select(0,0,0,0,&tv); }
 static void send_key(X11Api *x,Display *d,Window w,int code,long mask) { XEvent e; memset(&e,0,sizeof(e)); e.xkey.display=d;e.xkey.window=w;e.xkey.keycode=(unsigned int)code;e.xkey.same_screen=XTrue;e.type=XKeyPress;e.xkey.type=XKeyPress;x->send_event(d,w,XTrue,mask,&e);e.type=XKeyRelease;e.xkey.type=XKeyRelease;x->send_event(d,w,XTrue,mask,&e); }
 /* Kindle switches X focus between internal IM windows.  Send only a press for
  * our synthetic deletion, so this release-only listener never consumes it. */
@@ -30,12 +33,12 @@ int main(int argc,char **argv) {
     for(;;){
         XEvent e;KeySym sym;HangulResult r;int i;
         x.get_input_focus(d,&w,&revert);
-        if(w==XNone){pause_10ms();continue;}
+        if(w==XNone){pause_idle();continue;}
         /* The Kindle GTK input method rotates focus among helper windows for
          * every tap.  That is not an application change, so retain preedit. */
         if(w!=active){active=w;if(diagnose)fprintf(stderr,"bridge=focus window=%lu\n",(unsigned long)w);}
         x.select_input(d,w,XKeyReleaseMask);
-        if(!x.check_window_event(d,w,XKeyReleaseMask,&e)){pause_10ms();continue;}
+        if(!x.check_window_event(d,w,XKeyReleaseMask,&e)){pause_idle();continue;}
         if(e.type!=XKeyRelease)continue;
         if(e.xkey.keycode==(unsigned int)max||e.xkey.keycode==(unsigned int)(max-1))continue;
         sym=x.lookup_keysym(&e.xkey,0);
