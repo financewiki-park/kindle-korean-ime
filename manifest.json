@@ -14,7 +14,7 @@
       "name": "Korean IME (staged)",
       "author": "financewiki-park",
       "description": "Dubeolsik engine and X11 bridge. Activation is blocked until a compatible Probe report is present.",
-      "artifacts": [{"url": "packages/korean-ime/artifacts/korean-ime_0.2.5_kindlehf-kindlepw2.kpkg", "version": [0, 2, 5], "dependencies": [], "supported_platforms": ["kindlehf", "kindlepw2"]}]
+      "artifacts": [{"url": "packages/korean-ime/artifacts/korean-ime_0.3.0_kindlehf-kindlepw2.kpkg", "version": [0, 3, 0], "dependencies": [], "supported_platforms": ["kindlehf", "kindlepw2"]}]
     }
   }
 }

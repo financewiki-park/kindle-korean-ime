@@ -1,11 +1,7 @@
 #!/bin/sh
-set -u
+set -eu
 STATE=/mnt/us/korean-ime
 mkdir -p "$STATE"
-./scriptlets/preflight.sh >"$STATE/preflight.txt" 2>&1 || true
-if grep -q '^status=ready-for-device-policy$' "$STATE/preflight.txt"; then
-  echo "Korean IME payload installed; device policy is still required before activation."
-else
-  echo "Korean IME payload staged safely. Read $STATE/preflight.txt."
-fi
-exit 0
+./scriptlets/preflight.sh >"$STATE/preflight.txt" 2>&1
+./scriptlets/register-korean.sh >"$STATE/install.txt" 2>&1
+echo "Korean keyboard registered. Restart the Kindle to load it, or launch this package."
