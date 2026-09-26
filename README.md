@@ -2,6 +2,8 @@
 
 KPM-installable Korean keyboard / IME for jailbroken Kindle devices.
 
+Korean installation guide: [docs/BLOG-KO-INSTALL.md](docs/BLOG-KO-INSTALL.md)
+
 ## Status
 
 **Development / guarded staging stage (0.2.0).**
