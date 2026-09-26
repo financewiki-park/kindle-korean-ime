@@ -18,20 +18,23 @@ static void pause_10ms(void) { struct timeval tv; tv.tv_sec=0; tv.tv_usec=10000;
 static void send_key(X11Api *x,Display *d,Window w,int code,long mask) { XEvent e; memset(&e,0,sizeof(e)); e.xkey.display=d;e.xkey.window=w;e.xkey.keycode=(unsigned int)code;e.xkey.same_screen=XTrue;e.type=XKeyPress;e.xkey.type=XKeyPress;x->send_event(d,w,XTrue,mask,&e);e.type=XKeyRelease;e.xkey.type=XKeyRelease;x->send_event(d,w,XTrue,mask,&e); }
 static void inject(X11Api *x,Display *d,Window w,KeySym sym,int code) { x->change_keyboard_mapping(d,code,1,&sym,1);send_key(x,d,w,code,XKeyPressMask|XKeyReleaseMask); }
 int main(int argc,char **argv) {
-    void *lib;X11Api x;Display *d;Window w,active=XNone;int revert,min,max,preedit=0,korean=1;HangulState s;
+    void *lib;X11Api x;Display *d;Window w,active=XNone;int revert,min,max,preedit=0,korean=1,diagnose=0,logged=0;HangulState s;
     if(argc>1&&strcmp(argv[1],"--version")==0){puts("korean-ime-x11 0.3.0");return 0;}
+    if(argc>1&&strcmp(argv[1],"--diagnose")==0)diagnose=1;
     if(!load_x11(&lib,&x)){fputs("X11 library/ABI unavailable\n",stderr);return 2;}
     d=x.open_display(NULL);if(!d){fputs("No X11 display\n",stderr);return 2;}x.display_keycodes(d,&min,&max);if(max-min<2)return 3;hangul_reset(&s);
+    if(diagnose)fprintf(stderr,"bridge=start keycodes=%d..%d\n",min,max);
     for(;;){
         XEvent e;KeySym sym;HangulResult r;int i;
         x.get_input_focus(d,&w,&revert);
         if(w==XNone){pause_10ms();continue;}
-        if(w!=active){active=w;hangul_reset(&s);preedit=0;}
+        if(w!=active){active=w;hangul_reset(&s);preedit=0;if(diagnose)fprintf(stderr,"bridge=focus window=%lu\n",(unsigned long)w);}
         x.select_input(d,w,XKeyReleaseMask);
         if(!x.check_window_event(d,w,XKeyReleaseMask,&e)){pause_10ms();continue;}
         if(e.type!=XKeyRelease)continue;
         if(e.xkey.keycode==(unsigned int)max||e.xkey.keycode==(unsigned int)(max-1))continue;
         sym=x.lookup_keysym(&e.xkey,0);
+        if(diagnose&&logged++<48)fprintf(stderr,"bridge=key code=%u sym=0x%lx state=0x%x\n",e.xkey.keycode,(unsigned long)sym,e.xkey.state);
         if(sym==XK_space&&(e.xkey.state&ShiftMask)){korean=!korean;hangul_reset(&s);preedit=0;continue;}
         if(!korean)continue;
         if(sym==XK_BackSpace){r=hangul_backspace(&s);if(r.preedit)inject(&x,d,w,(KeySym)r.preedit,max);preedit=r.preedit!=0;x.flush(d);continue;}

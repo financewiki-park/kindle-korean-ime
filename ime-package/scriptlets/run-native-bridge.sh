@@ -13,7 +13,8 @@ fi
 for target in kindlehf kindlepw2; do
   binary="./bin/$target/korean-ime-x11"
   if [ -x "$binary" ]; then
-    if command -v nohup >/dev/null 2>&1; then nohup "$binary" >>"$STATE/bridge.log" 2>&1 < /dev/null & else "$binary" >>"$STATE/bridge.log" 2>&1 & fi
+    : >"$STATE/bridge.log"
+    if command -v nohup >/dev/null 2>&1; then nohup "$binary" --diagnose >>"$STATE/bridge.log" 2>&1 < /dev/null & else "$binary" --diagnose >>"$STATE/bridge.log" 2>&1 & fi
     echo $! >"$STATE/bridge.pid"; echo "bridge=started target=$target"; exit 0
   fi
 done
