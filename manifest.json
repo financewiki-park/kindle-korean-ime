@@ -14,7 +14,7 @@
       "name": "Korean IME native-input investigation",
       "author": "financewiki-park",
       "description": "Read-only native keyboard diagnostics. Updating from the staged build restores its backup first.",
-      "artifacts": [{"url": "packages/korean-ime/artifacts/korean-ime_0.4.0_kindlehf-kindlepw2.kpkg", "version": [0, 4, 0], "dependencies": [], "supported_platforms": ["kindlehf", "kindlepw2"]}]
+      "artifacts": [{"url": "packages/korean-ime/artifacts/korean-ime_0.4.1_kindlehf-kindlepw2.kpkg", "version": [0, 4, 1], "dependencies": [], "supported_platforms": ["kindlehf", "kindlepw2"]}]
     }
   }
 }
