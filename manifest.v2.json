@@ -30,8 +30,8 @@
       "description": "Dubeolsik engine and X11 bridge. Activation is blocked until a compatible Probe report is present.",
       "artifacts": [
         {
-          "url": "packages/korean-ime/artifacts/korean-ime_0.3.1_kindlehf-kindlepw2.kpkg",
-          "version": [0, 3, 1],
+          "url": "packages/korean-ime/artifacts/korean-ime_0.3.2_kindlehf-kindlepw2.kpkg",
+          "version": [0, 3, 2],
           "dependencies": [],
           "supported_platforms": ["kindlehf", "kindlepw2"]
         }
