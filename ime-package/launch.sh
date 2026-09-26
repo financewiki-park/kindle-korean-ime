@@ -6,4 +6,5 @@ mkdir -p "$STATE"
 if command -v lipc-set-prop >/dev/null 2>&1; then
   lipc-set-prop com.lab126.KeyboardLayout selectedKeyboard ko >>"$STATE/launch.txt" 2>&1 || true
 fi
+./scriptlets/run-bridge.sh >>"$STATE/launch.txt" 2>&1 || true
 echo "Korean keyboard configuration applied. Restart if it does not appear immediately."
