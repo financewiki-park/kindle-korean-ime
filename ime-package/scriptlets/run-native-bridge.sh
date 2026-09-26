@@ -6,7 +6,11 @@ STATE=/mnt/us/korean-ime; mkdir -p "$STATE"
 if [ -r "$STATE/bridge.pid" ]; then
   pid="$(cat "$STATE/bridge.pid" 2>/dev/null || true)"
   if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null && [ -r "/proc/$pid/cmdline" ] && grep -aq 'korean-ime-x11' "/proc/$pid/cmdline"; then
-    echo 'bridge=already_running'; exit 0
+    # KPM replaces package files before this hook.  Retaining the old process
+    # would keep running its old binary after a successful upgrade.
+    kill "$pid" 2>/dev/null || true
+    sleep 1
+    echo 'bridge=restarted_after_upgrade'
   fi
   rm -f "$STATE/bridge.pid"
 fi
