@@ -2,9 +2,6 @@
 set -eu
 STATE=/mnt/us/korean-ime
 mkdir -p "$STATE"
-sh ./scriptlets/register-korean.sh >"$STATE/launch.txt" 2>&1
-if command -v lipc-set-prop >/dev/null 2>&1; then
-  lipc-set-prop com.lab126.KeyboardLayout selectedKeyboard ko >>"$STATE/launch.txt" 2>&1 || true
-fi
-sh ./scriptlets/run-bridge.sh >>"$STATE/launch.txt" 2>&1 || true
-echo "Korean keyboard configuration applied. Restart if it does not appear immediately."
+sh ./scriptlets/preflight.sh >"$STATE/launch.txt" 2>&1
+sh ./scriptlets/native-input-probe.sh >"$STATE/native-input.txt" 2>&1
+echo "Native-input diagnostics refreshed. No Kindle keyboard setting was changed."

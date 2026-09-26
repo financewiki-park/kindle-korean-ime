@@ -3,6 +3,5 @@ set -eu
 STATE=/mnt/us/korean-ime
 mkdir -p "$STATE"
 sh ./scriptlets/preflight.sh >"$STATE/preflight.txt" 2>&1
-sh ./scriptlets/register-korean.sh >"$STATE/install.txt" 2>&1
-sh ./scriptlets/run-bridge.sh >>"$STATE/install.txt" 2>&1 || true
-echo "Korean keyboard registered. Restart the Kindle to load it, or launch this package."
+sh ./scriptlets/native-input-probe.sh >"$STATE/native-input.txt" 2>&1
+echo "Native-input diagnostics saved. No Kindle keyboard setting was changed."

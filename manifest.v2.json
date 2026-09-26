@@ -25,13 +25,13 @@
       ]
     },
     "korean-ime": {
-      "name": "Korean IME (staged)",
+      "name": "Korean IME native-input investigation",
       "author": "financewiki-park",
-      "description": "Dubeolsik engine and X11 bridge. Activation is blocked until a compatible Probe report is present.",
+      "description": "Read-only native keyboard diagnostics. Updating from the staged build restores its backup first.",
       "artifacts": [
         {
-          "url": "packages/korean-ime/artifacts/korean-ime_0.3.2_kindlehf-kindlepw2.kpkg",
-          "version": [0, 3, 2],
+          "url": "packages/korean-ime/artifacts/korean-ime_0.4.0_kindlehf-kindlepw2.kpkg",
+          "version": [0, 4, 0],
           "dependencies": [],
           "supported_platforms": ["kindlehf", "kindlepw2"]
         }

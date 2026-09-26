@@ -40,14 +40,14 @@ jobs:
           mkdir -p build/package-ime/bin/kindlepw2 build/package-ime/bin/kindlehf
           cp build/arm/kindlepw2/korean-ime-x11 build/package-ime/bin/kindlepw2/
           cp build/arm/kindlehf/korean-ime-x11 build/package-ime/bin/kindlehf/
-          tar -C build/package-ime -czf packages/korean-ime/artifacts/korean-ime_0.3.2_kindlehf-kindlepw2.kpkg manifest.json install.sh launch.sh uninstall.sh scriptlets bin
+          tar -C build/package-ime -czf packages/korean-ime/artifacts/korean-ime_0.4.0_kindlehf-kindlepw2.kpkg manifest.json install.sh launch.sh uninstall.sh scriptlets bin
           tar -tzf packages/korean-ime-probe/artifacts/korean-ime-probe_0.2.5_kindlehf-kindlepw2.kpkg | grep -qx 'launch.sh'
-          tar -tzf packages/korean-ime/artifacts/korean-ime_0.3.2_kindlehf-kindlepw2.kpkg | grep -qx 'bin/kindlehf/korean-ime-x11'
-          tar -tzf packages/korean-ime/artifacts/korean-ime_0.3.1_kindlehf-kindlepw2.kpkg | grep -qx 'scriptlets/preflight.sh'
-          python3 scripts/validate_kpm.py manifest.json packages/korean-ime-probe/artifacts/korean-ime-probe_0.2.5_kindlehf-kindlepw2.kpkg packages/korean-ime/artifacts/korean-ime_0.3.2_kindlehf-kindlepw2.kpkg
+          tar -tzf packages/korean-ime/artifacts/korean-ime_0.4.0_kindlehf-kindlepw2.kpkg | grep -qx 'bin/kindlehf/korean-ime-x11'
+          tar -tzf packages/korean-ime/artifacts/korean-ime_0.4.0_kindlehf-kindlepw2.kpkg | grep -qx 'scriptlets/native-input-probe.sh'
+          python3 scripts/validate_kpm.py manifest.json packages/korean-ime-probe/artifacts/korean-ime-probe_0.2.5_kindlehf-kindlepw2.kpkg packages/korean-ime/artifacts/korean-ime_0.4.0_kindlehf-kindlepw2.kpkg
       - uses: actions/upload-artifact@v4
         with:
-          name: korean-ime-kpm-0.3.2
+          name: korean-ime-kpm-0.4.0
           path: packages/**/artifacts/*.kpkg
           if-no-files-found: error
       - name: Publish immutable repository artifacts
@@ -55,4 +55,4 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add -f packages
-          git diff --cached --quiet || (git commit -m 'Publish KPM artifacts 0.3.2' && git push)
+          git diff --cached --quiet || (git commit -m 'Publish KPM artifacts 0.4.0' && git push)
