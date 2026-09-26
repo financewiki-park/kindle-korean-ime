@@ -5,7 +5,7 @@
 #include <dlfcn.h>
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
+#include <sys/select.h>
 typedef struct { Display *(*open_display)(const char *); int (*display_keycodes)(Display *,int *,int *); int (*get_input_focus)(Display *,Window *,int *); int (*select_input)(Display *,Window,long); int (*check_window_event)(Display *,Window,long,XEvent *); KeySym (*lookup_keysym)(XKeyEvent *,int); int (*change_keyboard_mapping)(Display *,int,int,KeySym *,int); int (*send_event)(Display *,Window,Bool,long,XEvent *); int (*flush)(Display *); } X11Api;
 static int load_x11(void **handle, X11Api *api) {
     *handle=dlopen("libX11.so.6",RTLD_NOW|RTLD_LOCAL); if(!*handle) return 0;
@@ -14,6 +14,7 @@ static int load_x11(void **handle, X11Api *api) {
 #undef LOAD
     return 1;
 }
+static void pause_10ms(void) { struct timeval tv; tv.tv_sec=0; tv.tv_usec=10000; (void)select(0,0,0,0,&tv); }
 static void send_key(X11Api *x,Display *d,Window w,int code,long mask) { XEvent e; memset(&e,0,sizeof(e)); e.xkey.display=d;e.xkey.window=w;e.xkey.keycode=(unsigned int)code;e.xkey.same_screen=XTrue;e.type=XKeyPress;e.xkey.type=XKeyPress;x->send_event(d,w,XTrue,mask,&e);e.type=XKeyRelease;e.xkey.type=XKeyRelease;x->send_event(d,w,XTrue,mask,&e); }
 static void inject(X11Api *x,Display *d,Window w,KeySym sym,int code) { x->change_keyboard_mapping(d,code,1,&sym,1);send_key(x,d,w,code,XKeyPressMask|XKeyReleaseMask); }
 int main(int argc,char **argv) {
@@ -24,10 +25,10 @@ int main(int argc,char **argv) {
     for(;;){
         XEvent e;KeySym sym;HangulResult r;int i;
         x.get_input_focus(d,&w,&revert);
-        if(w==XNone){usleep(10000);continue;}
+        if(w==XNone){pause_10ms();continue;}
         if(w!=active){active=w;hangul_reset(&s);preedit=0;}
         x.select_input(d,w,XKeyReleaseMask);
-        if(!x.check_window_event(d,w,XKeyReleaseMask,&e)){usleep(10000);continue;}
+        if(!x.check_window_event(d,w,XKeyReleaseMask,&e)){pause_10ms();continue;}
         if(e.type!=XKeyRelease)continue;
         if(e.xkey.keycode==(unsigned int)max||e.xkey.keycode==(unsigned int)(max-1))continue;
         sym=x.lookup_keysym(&e.xkey,0);
