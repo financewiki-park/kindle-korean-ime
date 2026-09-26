@@ -13,20 +13,17 @@
 
 SH Integration은 `.sh` 실행 파일을 Kindle 홈 라이브러리의 실행 항목으로 보여 주는 구성요소다. 이미 다른 `.sh` 실행 파일이 홈 화면에 보인다면 준비되어 있다.
 
-KPM 저장소 주소는 다음 한 줄이다.
+## 처음 설치: KPM 저장소 등록부터
 
-`https://financewiki-park.github.io/k/`
-
-## 설치: KTerm에서 두 줄
-
-KTerm을 열고 아래를 차례로 실행한다.
+KTerm을 열고 아래 세 줄을 차례로 실행한다.
 
 ```sh
+/var/local/kmc/bin/kpm add-repo https://financewiki-park.github.io/k/
 /var/local/kmc/bin/kpm update
 /var/local/kmc/bin/kpm install korean-ime
 ```
 
-첫 줄은 KPM이 등록된 저장소의 최신 목록을 받는다. 둘째 줄은 기존 버전이 있다면 안전한 업그레이드 절차를 거쳐 새 버전을 설치한다.
+첫 줄은 Korean IME 저장소를 KPM에 등록한다. 이 작업은 최초 한 번만 하면 된다. 둘째 줄은 최신 패키지 목록을 받고, 셋째 줄은 Korean IME를 설치한다. 등록 여부는 `/var/local/kmc/bin/kpm list-repo`로 확인할 수 있다.
 
 설치 중에는 Kindle을 재부팅하거나 USB를 뽑지 않는다. 설치가 끝나면 KPM이 다음 파일을 만든다.
 
