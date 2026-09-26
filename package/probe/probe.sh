@@ -9,7 +9,7 @@ mkdir -p "$OUT"
 {
   echo "Kindle Korean IME compatibility probe"
   echo "====================================="
-  echo "probe_schema=4"
+  echo "probe_schema=5"
   echo "probe_mode=$MODE"
   date 2>/dev/null || true
   echo
@@ -64,6 +64,20 @@ mkdir -p "$OUT"
     2>/dev/null | sort | head -300 || true
   echo "keyboard processes:"
   ps w 2>/dev/null | grep -i '[k]eyboard' | head -100 || true
+  echo "keyboard registry contents:"
+  for registry_file in \
+    /var/local/java/prefs/Keyboard.preferences \
+    /var/local/java/prefs/language_layer.preferences \
+    /var/local/system/keyboard.conf \
+    /var/local/system/locale
+  do
+    echo "--- $registry_file ---"
+    if [ -r "$registry_file" ]; then
+      sed -n '1,260p' "$registry_file" 2>&1 || true
+    else
+      echo "unreadable_or_absent"
+    fi
+  done
   echo
   echo "[input method]"
   lipc-probe -a 2>/dev/null | grep -i -E 'keyboard|inputmethod|preedit|commit|replace' | head -200 || true

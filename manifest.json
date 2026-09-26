@@ -8,13 +8,13 @@
       "name": "Korean IME Probe",
       "author": "financewiki-park",
       "description": "Read-only Kindle keyboard compatibility probe.",
-      "artifacts": [{"url": "packages/korean-ime-probe/artifacts/korean-ime-probe_0.2.4_kindlehf-kindlepw2.kpkg", "version": [0, 2, 4], "dependencies": [], "supported_platforms": ["kindlehf", "kindlepw2"]}]
+      "artifacts": [{"url": "packages/korean-ime-probe/artifacts/korean-ime-probe_0.2.5_kindlehf-kindlepw2.kpkg", "version": [0, 2, 5], "dependencies": [], "supported_platforms": ["kindlehf", "kindlepw2"]}]
     },
     "korean-ime": {
       "name": "Korean IME (staged)",
       "author": "financewiki-park",
       "description": "Dubeolsik engine and X11 bridge. Activation is blocked until a compatible Probe report is present.",
-      "artifacts": [{"url": "packages/korean-ime/artifacts/korean-ime_0.2.4_kindlehf-kindlepw2.kpkg", "version": [0, 2, 4], "dependencies": [], "supported_platforms": ["kindlehf", "kindlepw2"]}]
+      "artifacts": [{"url": "packages/korean-ime/artifacts/korean-ime_0.2.5_kindlehf-kindlepw2.kpkg", "version": [0, 2, 5], "dependencies": [], "supported_platforms": ["kindlehf", "kindlepw2"]}]
     }
   }
 }
