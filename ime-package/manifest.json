@@ -4,7 +4,7 @@
   "name": "Korean IME native-focus trial",
   "author": "financewiki-park",
   "description": "Trial Dubeolsik composition bridge for the observed native Kindle GTK input method.",
-  "version": [0, 6, 1],
+  "version": [0, 6, 2],
   "dependencies": [],
   "supported_platforms": ["kindlehf", "kindlepw2"]
 }
