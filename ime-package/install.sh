@@ -5,5 +5,6 @@ mkdir -p "$STATE"
 sh ./scriptlets/preflight.sh >"$STATE/preflight.txt" 2>&1
 sh ./scriptlets/native-input-probe.sh >"$STATE/native-input.txt" 2>&1
 sh ./scriptlets/activate-korean.sh >"$STATE/install.txt" 2>&1
+sh ./scriptlets/install-resume-launcher.sh >>"$STATE/install.txt" 2>&1
 sh ./scriptlets/run-native-bridge.sh >>"$STATE/install.txt" 2>&1
-echo "Korean layout and native-focus composer installed. Re-launch after a reboot."
+echo "Korean layout and composer installed. Tap Korean IME Start after a reboot."
