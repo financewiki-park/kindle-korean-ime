@@ -9,7 +9,7 @@ mkdir -p "$OUT"
 {
   echo "Kindle Korean IME compatibility probe"
   echo "====================================="
-  echo "probe_schema=3"
+  echo "probe_schema=4"
   echo "probe_mode=$MODE"
   date 2>/dev/null || true
   echo
@@ -52,6 +52,18 @@ mkdir -p "$OUT"
     echo "lipc-get-prop: absent"
   fi
   lipc-probe -a 2>/dev/null | grep -E 'com\.lab126\.keyboard|inputMethod' | head -100 || true
+  echo
+  echo "[keyboard registry candidates]"
+  echo "configuration files mentioning en_US:"
+  grep -RIl \
+    --include='*.conf' --include='*.ini' --include='*.json' --include='*.xml' --include='*.js' \
+    'en_US' /var/local /opt/amazon/ebook 2>/dev/null | head -200 || true
+  echo "keyboard-related configuration files:"
+  find /var/local /opt/amazon/ebook -maxdepth 5 -type f \( \
+    -iname '*keyboard*' -o -iname '*language*' -o -iname '*locale*' \) \
+    2>/dev/null | sort | head -300 || true
+  echo "keyboard processes:"
+  ps w 2>/dev/null | grep -i '[k]eyboard' | head -100 || true
   echo
   echo "[input method]"
   lipc-probe -a 2>/dev/null | grep -i -E 'keyboard|inputmethod|preedit|commit|replace' | head -200 || true
