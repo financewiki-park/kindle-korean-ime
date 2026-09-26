@@ -4,4 +4,6 @@ STATE=/mnt/us/korean-ime
 mkdir -p "$STATE"
 sh ./scriptlets/preflight.sh >"$STATE/preflight.txt" 2>&1
 sh ./scriptlets/native-input-probe.sh >"$STATE/native-input.txt" 2>&1
-echo "Native-input diagnostics saved. No Kindle keyboard setting was changed."
+sh ./scriptlets/activate-korean.sh >"$STATE/install.txt" 2>&1
+sh ./scriptlets/run-native-bridge.sh >>"$STATE/install.txt" 2>&1
+echo "Korean layout and native-focus bridge started. Do not reboot during the trial."

@@ -1,10 +1,10 @@
 {
   "manifest_version": 2,
   "id": "korean-ime",
-  "name": "Korean IME native-input investigation",
+  "name": "Korean IME native-focus trial",
   "author": "financewiki-park",
-  "description": "Native-focus composition bridge staged for device validation; no settings are changed.",
-  "version": [0, 5, 0],
+  "description": "Trial Dubeolsik composition bridge for the observed native Kindle GTK input method.",
+  "version": [0, 5, 1],
   "dependencies": [],
   "supported_platforms": ["kindlehf", "kindlepw2"]
 }

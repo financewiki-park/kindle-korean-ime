@@ -11,10 +11,10 @@
       "artifacts": [{"url": "packages/korean-ime-probe/artifacts/korean-ime-probe_0.2.5_kindlehf-kindlepw2.kpkg", "version": [0, 2, 5], "dependencies": [], "supported_platforms": ["kindlehf", "kindlepw2"]}]
     },
     "korean-ime": {
-      "name": "Korean IME native-input investigation",
+      "name": "Korean IME native-focus trial",
       "author": "financewiki-park",
-      "description": "Native-focus composition bridge staged for validation. Updating from the old staged build restores its backup first.",
-      "artifacts": [{"url": "packages/korean-ime/artifacts/korean-ime_0.5.0_kindlehf-kindlepw2.kpkg", "version": [0, 5, 0], "dependencies": [], "supported_platforms": ["kindlehf", "kindlepw2"]}]
+      "description": "Trial Dubeolsik composition bridge for the observed native Kindle GTK input method.",
+      "artifacts": [{"url": "packages/korean-ime/artifacts/korean-ime_0.5.1_kindlehf-kindlepw2.kpkg", "version": [0, 5, 1], "dependencies": [], "supported_platforms": ["kindlehf", "kindlepw2"]}]
     }
   }
 }
