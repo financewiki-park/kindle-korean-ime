@@ -27,11 +27,11 @@
     "korean-ime": {
       "name": "Korean IME native-input investigation",
       "author": "financewiki-park",
-      "description": "Read-only native keyboard diagnostics. Updating from the staged build restores its backup first.",
+      "description": "Native-focus composition bridge staged for validation. Updating from the old staged build restores its backup first.",
       "artifacts": [
         {
-          "url": "packages/korean-ime/artifacts/korean-ime_0.4.3_kindlehf-kindlepw2.kpkg",
-          "version": [0, 4, 3],
+          "url": "packages/korean-ime/artifacts/korean-ime_0.5.0_kindlehf-kindlepw2.kpkg",
+          "version": [0, 5, 0],
           "dependencies": [],
           "supported_platforms": ["kindlehf", "kindlepw2"]
         }

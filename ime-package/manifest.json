@@ -3,8 +3,8 @@
   "id": "korean-ime",
   "name": "Korean IME native-input investigation",
   "author": "financewiki-park",
-  "description": "Read-only native Kindle keyboard diagnostics; no settings are changed.",
-  "version": [0, 4, 3],
+  "description": "Native-focus composition bridge staged for device validation; no settings are changed.",
+  "version": [0, 5, 0],
   "dependencies": [],
   "supported_platforms": ["kindlehf", "kindlepw2"]
 }
